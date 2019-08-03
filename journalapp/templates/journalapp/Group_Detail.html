@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}{{ name }}{% endblock %}
+
+
+
+{% block content %}
+    <h1 class="journal-header"><span>{{ name }}</span></h1>
+    <p class="Cafedra_name" style="margin-top: 2rem"><strong>Cafedra:</strong>{{ cafedra_name }}</p>
+    <p class="Faculty_name" style="margin-bottom: 0.5rem"><strong>Faculty:</strong><span>{{ faculty_name }}</span></p>
+    <p class="schedule" style="margin-bottom: 0.5rem"><a href="{% url 'schedule' pk=schedule.pk %}">Schedule</a></p>
+    {% if user.is_authenticated %}
+        <p class="journal"><a href="{% url 'journal_view' jpk=journal.pk %}">Journal</a></p>
+    {% endif %}
+{% endblock %}

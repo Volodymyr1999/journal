@@ -1,0 +1,237 @@
+body{
+	background-color: #fafafa;
+}
+.container-fluid{
+	padding: 0;
+}
+.row{
+	justify-content: space-around;
+}
+.topline{
+	background-color: darkred;
+	color:#fafafa;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+.topline div{
+	width: 33%;
+	text-align: center;
+}
+
+.contacts{
+	margin-top: 0.6em;
+
+}
+.contacts-item{
+	margin: 0;
+
+}
+.TextLogo{
+	font-family: 'Cookie',cursive;
+	margin:0;
+	font-size: 3.5em;
+
+}
+.language-block{
+	margin-top: 1.5em;
+}
+#lang-list{
+	border:none;
+	color:#fafafa;
+	background-color: darkred;
+}
+#lang-list option{
+	background-color: black;
+}
+.form{
+
+	padding-left: 0;
+}
+.form-control{
+	height: 1.5rem;
+}
+.navbar-nav{
+	padding-top: 0.2em;
+	padding-bottom: 0.2rem;
+
+}
+ul.navbar-nav{
+	display: flex;
+	width: 50%;
+	margin: 0 auto;
+}
+ul.navbar-nav li{
+	width: 25%;
+	text-align: center;
+}
+#enterbutton{
+	padding-top: 0.001rem;
+	padding-bottom: 0.001rem;
+}
+.content{
+	margin-top: 2.5rem;
+	position: relative;
+}
+.journal-header span{
+	position: relative;
+}
+.journal-header span::after{
+	content: "";
+	position: absolute;
+	background: #28a745;
+	height: 2px;
+	width: 50%;
+	top:100%;
+	left: 0;
+	right: 0;
+	margin: 10px auto;
+}
+.journal-header{
+	text-align: center;
+}
+
+.content-list{
+	margin: 40px 0;
+}
+.content-list li,p{
+
+
+	display: block;
+	text-align: center;
+}
+.content-list a{
+	color: darkred;
+	font-size: 20px;
+}
+#radioform{
+	background: #28a745;
+	border-radius: 10px;
+	position: absolute;
+	right:1rem;
+	padding-top: 0.5rem;
+
+}
+
+.cafedra_name{
+	text-align: center;
+}
+
+#All{
+	margin-top: .5rem;
+}
+
+td{
+	text-align: center;
+	position: relative;
+	box-sizing: border-box;
+
+
+}
+#edit{
+	width: 100%;
+	height: 100%;
+}
+.year{
+	position: absolute;
+	background: black;
+	color: #fafafa;
+	display: none;
+	opacity: 0.6;
+	top: -0.5rem;
+
+
+
+}
+.date:hover .year{
+	display: block;
+}
+
+.slide-window{
+	overflow: hidden;
+	position: relative;
+	height: 15rem;
+	width: 800px;
+	margin: 0 auto;
+	margin-top: 2.5rem;
+	margin-bottom: 2.5rem;
+}
+.les-item{
+	box-sizing: border-box;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+
+}
+.les-item table{
+	margin: 0 auto;
+}
+
+.left-arrow, .rigth-arrow{
+	display: block;
+	position: absolute;
+	top: 10rem;
+	color: darkred;
+
+
+}
+.left-arrow{
+	left: 8rem;
+
+}
+.rigth-arrow{
+	right:8rem;
+}
+.fas{
+	font-size: 3em;
+
+}
+.fas:hover{
+	color: #28a745;
+}
+table{
+
+	display: block;
+
+
+}
+
+
+/*login*/
+.content{
+	margin-top: 0;
+}
+.login-form{
+	width: 30rem;
+	margin:3rem auto;
+	text-align: center;
+}
+.login-form label{
+	margin-top: 1rem;
+}
+.login-form form{
+	background: #28a745;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+	border-radius: 20px;
+}
+
+
+.login-form input{
+	width: 15rem;
+	margin: auto;
+	display: block;
+	text-align: center;
+	border: none;
+	padding: 0.2rem 0;
+	
+}
+
+#login-button{
+	margin-top: 2rem;
+	color:#fff;
+	border:none;
+	background: #343a40;
+	padding: 0.5rem 0;
+	border-radius: 5px;
+
+}

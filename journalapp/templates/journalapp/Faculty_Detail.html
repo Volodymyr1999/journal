@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title%}{{ name }}{% endblock %}
+
+{% block content %}
+    <h1 class="journal-header" id="Faculty_Name">{{ name }}</h1>
+    <h3 class="journal-header"><span>Groups</span></h3>
+    <div class="content-list" id="RadioPanel">
+        <form id="radioform" method="GET" class="col-sm-3">
+        {% csrf_token %}
+            <div id="All">
+            <input type="Radio" id="All_Cafedras" checked name="Radio" value="all">
+            <label for="All_Cafedras">All</label>
+            </div>
+            <hr>
+            {% for cafedra in cafedras %}
+                <div>
+                <input type="Radio" id="{{ cafedra.name_of_cafedra }}" class="RadioItem"  name="Radio" value="{{ cafedra.name_of_cafedra }}">
+                <label for="{{ cafedra.name_of_cafedra }}">{{ cafedra.name_of_cafedra }}</label>
+                </div>
+            {% endfor %}
+
+
+
+        </form>
+
+    </div>
+    {% endblock %}
+    {% block script %}
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        $(function () {
+
+
+         $('.RadioItem').change(function () {
+             var name_of_cafedra = $('input[name=Radio]:checked').val();
+
+             $.ajax({
+                 type:"GET",
+                url : '{% url "get_groups_by_cafedra" %}',
+                 data :{
+
+                    'name_of_cafedra': name_of_cafedra
+                 },
+
+
+
+                 dataType: 'json',
+                 success : function (data) {
+                    $('.cafedra_name').remove();
+                   var groups = JSON.parse(data['groups']);
+                   for(var i=0;i<groups.length;i++){
+                       name_of_group = groups[i].fields['name_of_group'];
+                       pk = groups[i].pk;
+
+
+
+
+                       $('.content-list').append(`<p class="cafedra_name"><a href='{% url "group_view" pk=2 %}'>${name_of_group}</a></p>`.replace(2,pk))
+                   }
+
+
+                 }
+
+             })
+         });
+
+         function getAllcafedras(){
+             var name_of_faculty = $('#Faculty_Name').text();
+             $.ajax({
+                 type: "GET",
+                 url: "{% url 'get_all_groups_in_faculty' %}",
+                 data: {
+                     'name_of_faculty': name_of_faculty,
+                 },
+                 dataType: 'json',
+                 success: function (data) {
+                     $('.cafedra_name').remove();
+
+                     var groups = JSON.parse(data['groups']);
+
+                     for(var i=0;i<groups.length;i++){
+                         name_of_group = groups[i].fields['name_of_group'];
+                         console.log(typeof(3));
+                         pk = groups[i].pk;
+
+
+
+
+                         $('.content-list').append(`<p class="cafedra_name"><a href='{% url "group_view" pk=2%}'>${name_of_group}</a></p>`.replace(2,pk))
+                   }
+
+                 }
+
+             })
+         }
+         $('#All_Cafedras').change(getAllcafedras);
+
+         getAllcafedras();
+
+
+});
+    </script>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <h1 class="journal-header"><span>{{ group.name_of_group }}</span></h1>
+    <span class="left-arrow"><i class="fas fa-angle-left" onclick="changeLeft()"></i></span>
+    <span class="rigth-arrow"><i class="fas fa-angle-right" onclick="changeRight()"></i></span>
+    <div class="slide-window">
+
+    {% for lesson in lessons %}
+
+    <div class="les-item">
+    <h3 class="subject"  id="{{ lesson.subjects.name }}">{{ lesson.subjects.name}}</h3>
+    <table class="journal-table" style="border-left: 1px solid black;">
+        <tr style="border-top: 1px solid black;">
+        <th style="border-right: 1px solid black;">Students</th>
+
+        {% for date in dates %}
+            {% if date.weekday in lesson.Days %}
+            <td class="date" style="border-right: 1px solid black;">
+                <span class="Mounth">{{ date.month }}</span>
+                <span class="day">{{ date.day }}</span>
+                <span class="year" >{{ date.year }}</span>
+            </td>
+            {% endif %}
+        {% endfor %}
+        </tr>
+        {% for student in students %}
+            <tr style="border-top: 1px solid black;">
+                <td class="stname" style="border-right: 1px solid black; border-bottom: 1px solid black">
+                    <span>{{ student.user.last_name }} {{ student.user.first_name }}</span>
+                </td>
+                {% for date in dates %}
+
+                    {% if date.weekday in lesson.Days %}
+                        <td style="border-right: 1px solid black;width: 1rem;border-bottom: 1px solid black" class="input">
+
+                        </td>
+                    {% endif %}
+                {% endfor %}
+
+            </tr>
+        {% endfor %}
+
+    </table>
+    </div>
+
+    {% endfor %}
+    </div>
+
+{% endblock %}
+{% block script %}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="{% static 'scripts/slider.js' %}"></script>
+
+	<!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+        $(function () {
+            {% if perms.journalapp.can_edit_marks %}
+            $('td.input').click(function (e) {
+
+                var el = e.target||e.srcElement;
+                var el_name = el.tagName.toLowerCase();
+                if(el_name=='input') {return false;}
+
+                var val = $(this).val();
+
+                var input = `<input type="text" id="edit"  value="${val}"/>`;
+
+                $(this).empty().append(input);
+
+                $('#edit').focus();
+
+                
+                $('#edit').blur(function () {
+
+                    var val = $(this).val();
+
+                    $(this).parent().empty().html(val);
+                });
+
+
+            });
+             $(window).keydown(function (event) {
+                    if(event.keyCode==13){
+                        column=$('#edit').parent();
+                        row = column.parent();
+                        table = row.parent();
+                        maindiv =table.parent().parent();
+
+                        subject = maindiv.children()[0].innerHTML;
+                        colindex = column.index();
+                        rowindex = row.index();
+
+
+                        day = table.children()[0].cells[colindex].children[1].innerHTML;
+                        mounth = table.children()[0].cells[colindex].children[0].innerHTML;
+                        year = table.children()[0].cells[colindex].children[2].innerHTML;
+                        group = $('h1.journal-header').children()[0].innerHTML;
+
+
+                        value = $('#edit').val();
+                        var regex = /^[0-9]{0,2}$|n/g;
+                        if(regex.test(value)==true){
+                            stname= table.children()[rowindex].cells[0].children[0].innerHTML;
+                            firts_name = stname.split(' ')[1];
+                            last_name = stname.split(' ')[0];
+
+
+                            $.ajax({
+                                url: '{% url "get_all_marks" %}',
+                                type:'GET',
+                                data:{
+                                    'value':value,
+                                    'subject':subject,
+                                    'colindex':colindex,
+                                    'rowindex':rowindex,
+                                    'day': day,
+                                    'mounth':mounth,
+                                    'year':year,
+                                    'group':group,
+                                    'first_name':firts_name,
+                                    'last_name':last_name,
+                                },
+                                dataType:'json',
+                                success : function (data) {
+                                   get_marks_from_json(data);
+                                }
+                        });
+
+                                $('#edit').blur();
+                        }
+                        else{
+                            $('#edit').css('color','red');
+
+                        }
+
+                    }
+
+                });
+            {% endif %}
+
+
+             function pageReady() {
+                 group = $('h1.journal-header').children()[0].innerHTML;
+                 $.ajax({
+                     url:'{% url "marks"%}',
+                     type:'GET',
+                     data:{
+                         'group':group,
+                     },
+                     dataType: 'json',
+                     success: function (data) {
+                         get_marks_from_json(data);
+                     }
+
+                 })
+
+             }
+
+
+             function get_marks_from_json(data) {
+                 var marks = JSON.parse(data['marks']);
+                 for(var i=0;i<marks.length;i++){
+                     val = marks[i].fields['value'];
+                     row_index = marks[i].fields['rowindex'];
+                     col_index = marks[i].fields['colindex'];
+                     sub_name = marks[i].fields['subject'];
+
+                     tab = $(`#${sub_name}`).next();
+                     tbody = tab.children()[0];
+                     tbody.children[row_index].cells[col_index].innerHTML = val;
+                 }
+             }
+
+
+
+
+
+
+             pageReady();
+
+
+        })
+    </script>
+
+{% endblock %}

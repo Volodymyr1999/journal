@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}schedule of {{ schedule.group.name_of_group }}{% endblock %}
+
+{% block content %}
+    <h1 class="journal-header"><span>{{ schedule.group.name_of_group }}</span></h1>
+    <ul class="schedule-ul">
+        {% for day in days %}
+            <li>
+                <table>
+
+                    <th class="day">{{ day.get_name_of_day_display }}</th>
+
+                    {% for lesson in day.lessons.all %}
+                        <tr>
+                            <td>{{ lesson.subjects.name }}</td>
+                            <td style="">{{ lesson.time }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+
+
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+

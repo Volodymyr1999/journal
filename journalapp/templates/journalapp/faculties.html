@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+    faculties
+{% endblock %}
+
+{% block content %}
+    <h1 class="journal-header"><span>Faculties</span></h1>
+    <ul class="content-list">
+    {% for faculty in faculty_list %}
+        <li><a href="{% url 'Faculty_Detail' pk=faculty.pk %}">{{ faculty.name_of_faculty }}</a></li>
+    {% endfor %}
+    </ul>
+{% endblock %}

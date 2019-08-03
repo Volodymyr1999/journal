@@ -1,0 +1,8 @@
+.idea
+__pycache__
+*.csv
+vnzs.txt
+venv
+helpfile
+*.pyc
+db.sqlite3
