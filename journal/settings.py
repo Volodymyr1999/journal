@@ -129,3 +129,8 @@ STATICFILES_DIRS = [
 
 
 LOGIN_REDIRECT_URL = '/journal/faculties/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 1025

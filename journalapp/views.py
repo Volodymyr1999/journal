@@ -4,6 +4,7 @@ from django.views import generic
 from django.http import JsonResponse,HttpResponse
 from django.core import serializers
 from django.contrib.auth.decorators import login_required
+from django.core.mail import send_mail
 import datetime
 # Create your views here.
 
@@ -109,7 +110,7 @@ def journal_view(request,jpk):
     for st in group.student_set.all():
         for i in st.mark_set.all():
             marks.append(i)
-    print(marks)
+
     return render(request,"journalapp/journalview.html",{'dates':dates,'students':students,
                                                          'lessons':lessons,'group':group,'marks':marks})
 
@@ -143,6 +144,9 @@ def get_all_marks_by_enter(request):
                                                  rowindex=rowindex)
         mark.value = value
         mark.save()
+
+    if student.user.email is not None:
+        send_mail('Journal','you have a new mark','localhost',[student.user.email])
 
 
 
