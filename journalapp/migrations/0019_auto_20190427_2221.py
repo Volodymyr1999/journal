@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('journalapp', '0018_auto_20190427_2157'),
+        ('journalapp', '0013_auto_20190427_1830'),
     ]
 
     operations = [
@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
             name='subjects',
         ),
         migrations.DeleteModel(
-            name='Subject',
+            name='subject',
         ),
     ]

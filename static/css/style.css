@@ -59,6 +59,7 @@ ul.navbar-nav{
 	display: flex;
 	width: 50%;
 	margin: 0 auto;
+	justify-content: center;
 }
 ul.navbar-nav li{
 	width: 25%;

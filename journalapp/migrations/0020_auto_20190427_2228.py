@@ -22,9 +22,9 @@ class Migration(migrations.Migration):
             name='subjects',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='journalapp.Subject'),
         ),
-        migrations.AddField(
-            model_name='mark',
-            name='subject',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='journalapp.Subject'),
-        ),
+        # migrations.AddField(
+        #     model_name='mark',
+        #     name='subject',
+        #     field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='journalapp.Subject'),
+        # ),
     ]
